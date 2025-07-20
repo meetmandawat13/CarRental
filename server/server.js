@@ -13,7 +13,7 @@ await connectDB()
 app.use(cors());
 app.use(express.json());
 
-app.get('/',(req,res)=> res.send("Hello Meghal"))
+app.get('/',(req,res)=> res.send("Server is running"))
 app.use('/api/user', userRouter)
 app.use('/api/owner',ownerRouter)
 app.use('/api/bookings',bookingRouter)
