@@ -9,10 +9,27 @@ const Hero = () => {
 
     const {pickupDate,setPickupDate,returnDate,setReturnDate,navigate} = useAppContext()
 
-    const handleSearch=(e)=>{
-      e.preventDefault()
-      navigate('/cars?pickupLocation='+pickupLocation + '&pickupDate= '+ pickupDate + '&returnDate= ' + returnDate)
-    }
+    const [error, setError] = useState("");
+
+const handleSearch = (e) => {
+  e.preventDefault();
+
+  if (new Date(returnDate) < new Date(pickupDate)) {
+    setError("Return date cannot be earlier than pickup date.");
+    return;
+  }
+
+  setError("");
+  navigate(
+    "/cars?pickupLocation=" +
+      pickupLocation +
+      "&pickupDate=" +
+      pickupDate +
+      "&returnDate=" +
+      returnDate
+  );
+};
+
 
   return (
     <motion.div
@@ -61,6 +78,11 @@ const Hero = () => {
                 Search
         </motion.button>
       </motion.form>
+
+      {error && (
+  <p className="text-red-600 mt-2 font-medium">{error}</p>
+)}
+
 
       <motion.img 
       initial={{ y:100,opacity:0}}

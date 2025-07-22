@@ -20,6 +20,13 @@ export const checkAvailabilityOfCar = async (req, res) => {
     try {
         const { location, pickupDate, returnDate } = req.body;
 
+        if (new Date(returnDate) < new Date(pickupDate)) {
+            return res.status(400).json({
+                success: false,
+                message: "Return date cannot be earlier than pickup date.",
+            });
+        }
+
         const cars = await Car.find({ location, isAvailable: true });
 
         const availableCarsPromises = cars.map(async (car) => {
@@ -36,6 +43,7 @@ export const checkAvailabilityOfCar = async (req, res) => {
         res.json({ success: false, message: error.message });
     }
 };
+
 
 //API to create booking
 export const createBooking = async(req,res)=>{
